@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import path from "path";
 
-const dbConfig = require("../../config");
+const dbConfig = require("../../dbConfig");
 
 const Sequelize = require("sequelize");
 
