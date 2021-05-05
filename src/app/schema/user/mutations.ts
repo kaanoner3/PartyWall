@@ -6,7 +6,7 @@ import {
   GraphQLResolveInfo,
   GraphQLObjectType,
 } from "graphql";
-import { UserType } from "./types";
+import {UserQueryType, UserType} from "./resolvers";
 const db = require("../../../app/db");
 
 export const createUserMutation = mutationWithClientMutationId({
@@ -29,11 +29,4 @@ export const createUserMutation = mutationWithClientMutationId({
     const { user } = db.sequelize.models;
     return await user.create({ username, password });
   },
-});
-
-export const UserMutation = new GraphQLObjectType({
-  name: "Mutation",
-  fields: () => ({
-    createUserMutation,
-  }),
 });
