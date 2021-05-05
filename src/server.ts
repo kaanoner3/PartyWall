@@ -3,6 +3,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import config from "../config.json";
+import { userSchema } from "./app/schema/user/queries";
 // import schema from "./app/schema";
 var { graphqlHTTP } = require("express-graphql");
 var { buildSchema } = require("graphql");
@@ -26,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: schema,
+    schema: userSchema,
     rootValue: root,
     graphiql: true,
   })

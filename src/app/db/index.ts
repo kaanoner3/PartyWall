@@ -3,12 +3,11 @@ import path from "path";
 
 const dbConfig = require("../../dbConfig");
 
-const Sequelize = require("sequelize");
+import { Sequelize } from "sequelize-typescript";
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
-
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
