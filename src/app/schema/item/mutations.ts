@@ -43,8 +43,6 @@ export const createItemMutation = mutationWithClientMutationId({
         quantity,
         price,
       });
-      console.log(attributes, name);
-      console.log("new item", newItem);
       return newItem;
     } catch (e) {
       throw new Error(`createItemMutation ${e}`);

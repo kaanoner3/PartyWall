@@ -18,15 +18,6 @@ module.exports = (sequelize: any, Sequelize: any) => {
     attributes: {
       type: Sequelize.DataTypes.JSON,
     },
-    description: {
-      type: Sequelize.DataTypes.STRING, // belongs to Food
-    },
-    weight: {
-      type: Sequelize.DataTypes.INTEGER, // belongs to Food
-    },
-    volume: {
-      type: Sequelize.DataTypes.INTEGER, // belongs to Drink
-    },
   });
   return Item;
 };
