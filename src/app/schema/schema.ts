@@ -6,11 +6,15 @@ import {
 } from "graphql";
 import { UserQueryType } from "./user/resolvers";
 import { createUserMutation } from "./user/mutations";
+import { ItemQueryType } from "./item/resolvers";
+import { CategoryQueryType } from "./category/resolvers";
+import {createCategoryMutation} from "./category/mutations";
 
 const rootMutation = new GraphQLObjectType({
   name: "rootMutation",
   fields: () => ({
     createUserMutation,
+    createCategoryMutation,
   }),
 });
 
@@ -20,6 +24,14 @@ export const rootQueryType = new GraphQLObjectType({
   fields: () => ({
     userQuery: {
       type: UserQueryType,
+      resolve: (rootValue) => rootValue,
+    },
+    itemQuery: {
+      type: ItemQueryType,
+      resolve: (rootValue) => rootValue,
+    },
+    categoryQuery: {
+      type: CategoryQueryType,
       resolve: (rootValue) => rootValue,
     },
   }),

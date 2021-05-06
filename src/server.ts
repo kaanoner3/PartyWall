@@ -5,13 +5,6 @@ import cors from "cors";
 import config from "../config.json";
 import {rootQueryType, schema} from "./app/schema/schema";
 var { graphqlHTTP } = require("express-graphql");
-var { buildSchema } = require("graphql");
-
-var root = {
-  hello: () => {
-    return "Hello world!";
-  },
-};
 
 const app: Express = express();
 
@@ -40,9 +33,6 @@ if (
 if (process.env.NODE_ENV === "production" || config.NODE_ENV === "production") {
   app.use(helmet());
 }
-
-const userRoute = require("./app/routes/user.router");
-app.use("/user", userRoute);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(

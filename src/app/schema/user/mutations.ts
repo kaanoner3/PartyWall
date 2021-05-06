@@ -6,17 +6,17 @@ import {
   GraphQLResolveInfo,
   GraphQLObjectType,
 } from "graphql";
-import {UserQueryType, UserType} from "./resolvers";
+import { UserType } from "./resolvers";
 const db = require("../../../app/db");
 
 export const createUserMutation = mutationWithClientMutationId({
   name: "createUserMutation",
   inputFields: {
     username: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
     password: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
   },
   outputFields: {
@@ -26,7 +26,11 @@ export const createUserMutation = mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async ({ username, password }) => {
-    const { user } = db.sequelize.models;
-    return await user.create({ username, password });
+    try {
+      const { user } = db.sequelize.models;
+      return await user.create({ username, password });
+    } catch (e) {
+      throw new Error(`createUserMutation ${e}`);
+    }
   },
 });

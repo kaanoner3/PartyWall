@@ -2,7 +2,7 @@ import app from "./server";
 import config from "../config.json";
 
 const db = require("./app/db");
-// Start the application by listening to specific port
+
 const port = Number(process.env.PORT || config.PORT || 8080);
 db.sequelize
   .sync()

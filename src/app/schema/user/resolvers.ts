@@ -25,6 +25,7 @@ const userModelManager = db.sequelize.models.user;
 //    (obj) => (obj.ships ? factionType : shipType),
 // );
 // export { nodeInterface, nodeField };
+
 const { connectionType: itemConnection } = connectionDefinitions({
   nodeType: ItemType,
 });
@@ -47,10 +48,9 @@ export const UserType = new GraphQLObjectType({
   }),
 });
 
-
 export const UserQueryType = new GraphQLObjectType({
   name: "userQuery",
-  description: "",
+  description: "it contains user related queries",
 
   fields: () => ({
     allPeople: {
