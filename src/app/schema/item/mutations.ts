@@ -19,11 +19,11 @@ const itemModelManager = db.sequelize.models.item;
 export const createItemMutation = mutationWithClientMutationId({
   name: "createItemMutation",
   inputFields: {
-    categoryId: { type: GraphQLInt },
-    userId: { type: GraphQLInt },
-    name: { type: GraphQLString },
-    price: { type: GraphQLInt },
-    quantity: { type: GraphQLInt },
+    categoryId: { type: new GraphQLNonNull(GraphQLInt) },
+    userId: { type: new GraphQLNonNull(GraphQLInt) },
+    name: { type: new GraphQLNonNull(GraphQLString) },
+    price: { type: new GraphQLNonNull(GraphQLInt) },
+    quantity: { type: new GraphQLNonNull(GraphQLInt) },
     attributes: { type: itemAttributesScalarType },
   },
   outputFields: {
