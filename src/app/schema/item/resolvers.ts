@@ -52,9 +52,6 @@ export const ItemType = new GraphQLObjectType({
     price: { type: GraphQLInt },
     quantity: { type: GraphQLInt },
     attributes: { type: itemAttributesType },
-    description: { type: GraphQLString },
-    volume: { type: GraphQLInt },
-    weight: { type: GraphQLInt },
     categoryId: { type: GraphQLInt },
     userId: { type: GraphQLInt },
     categoryName: {
