@@ -9,12 +9,14 @@ import { createUserMutation } from "./user/mutations";
 import { ItemQueryType } from "./item/resolvers";
 import { CategoryQueryType } from "./category/resolvers";
 import {createCategoryMutation} from "./category/mutations";
+import {createItemMutation} from "./item/mutations";
 
 const rootMutation = new GraphQLObjectType({
   name: "rootMutation",
   fields: () => ({
     createUserMutation,
     createCategoryMutation,
+    createItemMutation
   }),
 });
 

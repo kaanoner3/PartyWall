@@ -18,7 +18,7 @@ export const CategoryType = new GraphQLObjectType({
 });
 
 export const CategoryQueryType = new GraphQLObjectType({
-  name: "itemQuery",
+  name: "categoryQuery",
   description: "It contains category related queries",
   fields: () => ({
     allCategories: {

@@ -15,11 +15,11 @@ export const createCategoryMutation = mutationWithClientMutationId({
   name: "createCategoryMutation",
   inputFields: {
     name: {
-      type: GraphQLString,
+      type: new GraphQLNonNull(GraphQLString),
     },
   },
   outputFields: {
-    user: {
+    category: {
       type: CategoryType,
       resolve: (payload) => payload,
     },
