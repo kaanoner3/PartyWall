@@ -1,21 +1,18 @@
 import {
-    GraphQLList,
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLInt,
+  GraphQLList,
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
 } from "graphql";
 
+import { globalIdField } from "graphql-relay";
+
 export const ItemType = new GraphQLObjectType({
-    name: "Item",
-    fields: () => ({
-        id: { type: GraphQLString },
-        name: {
-            type: GraphQLString,
-            resolve: (item) => item.name,
-        },
-        price: {
-            type: GraphQLInt,
-            resolve: (item) => item.price,
-        },
-    }),
+  name: "Item",
+
+  fields: () => ({
+    id: { type: GraphQLInt },
+    name: { type: GraphQLString },
+    price: { type: GraphQLInt },
+  }),
 });

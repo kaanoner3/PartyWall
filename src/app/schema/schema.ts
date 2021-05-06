@@ -6,7 +6,6 @@ import {
 } from "graphql";
 import { UserQueryType } from "./user/resolvers";
 import { createUserMutation } from "./user/mutations";
-import { ItemType } from "./item/resolvers";
 
 const rootMutation = new GraphQLObjectType({
   name: "rootMutation",
@@ -14,6 +13,7 @@ const rootMutation = new GraphQLObjectType({
     createUserMutation,
   }),
 });
+
 export const rootQueryType = new GraphQLObjectType({
   name: "query",
   description: "",
@@ -24,6 +24,7 @@ export const rootQueryType = new GraphQLObjectType({
     },
   }),
 });
+
 export const schema: GraphQLSchema = new GraphQLSchema({
   query: rootQueryType,
   mutation: rootMutation,
