@@ -7,27 +7,26 @@ module.exports = (sequelize: any, Sequelize: any) => {
       type: Sequelize.DataTypes.INTEGER,
     },
     name: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    description: {
-      type: Sequelize.DataTypes.STRING,
-    },
-    weight: {
-      type: Sequelize.DataTypes.INTEGER,
+      type: Sequelize.DataTypes.STRING, // belongs both type
     },
     price: {
-      type: Sequelize.DataTypes.INTEGER,
+      type: Sequelize.DataTypes.INTEGER, // belongs both type
     },
     quantity: {
-      type: Sequelize.DataTypes.INTEGER,
+      type: Sequelize.DataTypes.INTEGER, // belongs both type
+    },
+    attributes: {
+      type: Sequelize.DataTypes.JSON,
+    },
+    description: {
+      type: Sequelize.DataTypes.STRING, // belongs to Food
+    },
+    weight: {
+      type: Sequelize.DataTypes.INTEGER, // belongs to Food
+    },
+    volume: {
+      type: Sequelize.DataTypes.INTEGER, // belongs to Drink
     },
   });
-  Item.associate = (models: any) => {
-    Item.belongsToMany(models.category, {
-      through: "ItemCategory",
-      foreignKey: "itemId",
-      as: "itemCategories",
-    });
-  };
   return Item;
 };
