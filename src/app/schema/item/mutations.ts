@@ -49,3 +49,26 @@ export const createItemMutation = mutationWithClientMutationId({
     }
   },
 });
+export const removeItemMutation = mutationWithClientMutationId({
+  name: "removeItemMutation",
+  inputFields: {
+    id: { type: new GraphQLNonNull(GraphQLInt) },
+  },
+  outputFields: {
+    deletedId: {
+      type: GraphQLInt,
+      resolve: ({ id }) => {
+        return id;
+      },
+    },
+  },
+  mutateAndGetPayload: async (input) => {
+    try {
+      const { id } = input;
+      await itemModelManager.destroy({ where: { id } });
+      return { id };
+    } catch (e) {
+      throw new Error(`removeItemMutation ${e}`);
+    }
+  },
+});

@@ -43,6 +43,7 @@ export const UserType = new GraphQLObjectType({
       type: itemConnection,
       args: connectionArgs,
       resolve: async (user, args) => {
+
         return connectionFromPromisedArray(
           itemModelManager.findAll({
             where: { userId: user.dataValues.id },
