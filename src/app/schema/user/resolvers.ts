@@ -10,6 +10,7 @@ import {
   connectionArgs,
   connectionDefinitions,
   connectionFromArray,
+  connectionFromPromisedArray,
   fromGlobalId,
   globalIdField,
   nodeDefinitions,
@@ -19,6 +20,7 @@ import {
 const db = require("../../../app/db");
 
 const userModelManager = db.sequelize.models.user;
+const itemModelManager = db.sequelize.models.item;
 
 // const { nodeInterface, nodeField } = nodeDefinitions(
 //   (globalId) => {}
@@ -40,9 +42,13 @@ export const UserType = new GraphQLObjectType({
     items: {
       type: itemConnection,
       args: connectionArgs,
-      resolve: (user, args) => {
-        console.log("11111111", user, args);
-        //connectionFromArray(user.ships.map(getShip), args);
+      resolve: async (user, args) => {
+        return connectionFromPromisedArray(
+          itemModelManager.findAll({
+            where: { userId: user.dataValues.id },
+          }),
+          args
+        );
       },
     },
   }),
