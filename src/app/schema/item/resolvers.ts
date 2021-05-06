@@ -57,18 +57,20 @@ export const ItemType = new GraphQLObjectType({
     weight: { type: GraphQLInt },
     categoryId: { type: GraphQLInt },
     userId: { type: GraphQLInt },
-    category: {
+    categoryName: {
       type: GraphQLString,
       resolve: async (rootValue) => {
-        console.log("item category resolver category", rootValue);
-        return await categoryModelManager.findByPk(rootValue.categoryId).name;
+        const { categoryId } = rootValue.dataValues;
+        const category = await categoryModelManager.findByPk(categoryId);
+        return category.dataValues.name;
       },
     },
-    user: {
+    userName: {
       type: GraphQLString,
       resolve: async (rootValue) => {
-        console.log("item category resolver user", rootValue);
-        return await userModelManager.findByPk(rootValue.userId).name;
+        const { userId } = rootValue.dataValues;
+        const user = await userModelManager.findByPk(userId);
+        return user.dataValues.username;
       },
     },
   }),
