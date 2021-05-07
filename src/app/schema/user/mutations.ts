@@ -1,16 +1,8 @@
 import { mutationWithClientMutationId } from "graphql-relay";
-import {
-  GraphQLID,
-  GraphQLString,
-  GraphQLNonNull,
-  GraphQLResolveInfo,
-  GraphQLObjectType,
-} from "graphql";
-import { UserType } from "./resolvers";
+import { GraphQLString, GraphQLNonNull } from "graphql";
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import has = Reflect.has;
-import { where } from "sequelize";
 
 const db = require("../../../app/db");
 
@@ -78,7 +70,7 @@ export const loginMutation = mutationWithClientMutationId({
     const _user = await user.findOne({
       where: { username: _username },
     });
-    // if there is no user, throw an authentication error
+
     if (!_user) {
       throw new Error("Password or username is invalid");
     }

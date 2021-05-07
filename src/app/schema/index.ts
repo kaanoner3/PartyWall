@@ -5,8 +5,8 @@ import {
   GraphQLString,
 } from "graphql";
 import { UserQueryType } from "./user/resolvers";
-import {createUserMutation, loginMutation} from "./user/mutations";
-import { ItemQueryType } from "./item/resolvers";
+import { createUserMutation, loginMutation } from "./user/mutations";
+import { ItemQueryType, nodeField } from "./item/resolvers";
 import { CategoryQueryType } from "./category/resolvers";
 import { createCategoryMutation } from "./category/mutations";
 import { createItemMutation, removeItemMutation } from "./item/mutations";
@@ -18,7 +18,7 @@ const rootMutation = new GraphQLObjectType({
     createCategoryMutation,
     createItemMutation,
     removeItemMutation,
-    loginMutation
+    loginMutation,
   }),
 });
 
@@ -38,6 +38,7 @@ export const rootQueryType = new GraphQLObjectType({
       type: CategoryQueryType,
       resolve: (rootValue) => rootValue,
     },
+    node: nodeField,
   }),
 });
 

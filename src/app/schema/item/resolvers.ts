@@ -7,11 +7,29 @@ import {
   GraphQLScalarType,
   ObjectValueNode,
 } from "graphql";
+import { fromGlobalId, globalIdField, nodeDefinitions } from "graphql-relay";
 const db = require("../../../app/db");
 
 const itemModelManager = db.sequelize.models.item;
 const categoryModelManager = db.sequelize.models.category;
 const userModelManager = db.sequelize.models.user;
+
+const { nodeInterface, nodeField } = nodeDefinitions(
+  (globalId) => {
+    const { type, id } = fromGlobalId(globalId);
+    // Log to NodeJS console the mapping from globalId/Node ID
+    // to actual object type and id
+    console.log("NodeDefinitions (globalId), id:", id);
+    console.log("NodeDefinitions (globalId), type:", type);
+
+    return id;
+  },
+  (obj) => {
+    return null;
+  }
+);
+
+export { nodeInterface, nodeField };
 
 export const itemAttributesScalarType = new GraphQLScalarType({
   name: "attributesScalar",
@@ -47,13 +65,14 @@ export const itemAttributesType = new GraphQLObjectType({
 export const ItemType = new GraphQLObjectType({
   name: "Item",
   fields: () => ({
-    id: { type: GraphQLInt },
+    id: globalIdField("Item"),
     name: { type: GraphQLString },
     price: { type: GraphQLInt },
     quantity: { type: GraphQLInt },
     attributes: { type: itemAttributesType },
     categoryId: { type: GraphQLInt },
     userId: { type: GraphQLInt },
+
     categoryName: {
       type: GraphQLString,
       resolve: async (rootValue) => {
@@ -71,11 +90,13 @@ export const ItemType = new GraphQLObjectType({
       },
     },
   }),
+  interfaces: () => [nodeInterface],
 });
 
 export const ItemQueryType = new GraphQLObjectType({
   name: "itemQuery",
   description: "It contains item related queries",
+
   fields: () => ({
     allItems: {
       type: new GraphQLList(ItemType),
@@ -87,8 +108,10 @@ export const ItemQueryType = new GraphQLObjectType({
       type: ItemType,
       args: { itemId: { type: new GraphQLNonNull(GraphQLString) } },
       resolve: async (rootValue, args: { itemId?: string }) => {
-        return await itemModelManager.findByPk(args.itemId);
+        const _id: any = args.itemId && fromGlobalId(args.itemId);
+        return await itemModelManager.findByPk(_id.id);
       },
     },
+    node: nodeField,
   }),
 });

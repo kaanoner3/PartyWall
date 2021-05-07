@@ -66,8 +66,9 @@ type createUserMutationPayload {
   clientMutationId: String
 }
 
-type Item {
-  id: Int
+type Item implements Node {
+  """The ID of an object"""
+  id: ID!
   name: String
   price: Int
   quantity: Int
@@ -100,6 +101,12 @@ type ItemEdge {
 type itemQuery {
   allItems: [Item]
   item(itemId: String!): Item
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
 }
 
 input loginMutationInput {
@@ -111,6 +118,12 @@ input loginMutationInput {
 type loginMutationPayload {
   token: String
   clientMutationId: String
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
 }
 
 """Information about pagination in a connection."""
@@ -132,6 +145,12 @@ type query {
   userQuery: userQuery
   itemQuery: itemQuery
   categoryQuery: categoryQuery
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
 }
 
 input removeItemMutationInput {
@@ -152,8 +171,9 @@ type rootMutation {
   loginMutation(input: loginMutationInput!): loginMutationPayload
 }
 
-type User {
-  id: Int
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
   username: String
   password: String
   token: String
@@ -164,5 +184,11 @@ type User {
 type userQuery {
   allPeople: [User]
   person(userId: String!): User
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
 }
 
