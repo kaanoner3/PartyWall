@@ -5,7 +5,7 @@ import {
   GraphQLString,
 } from "graphql";
 import { UserQueryType } from "./user/resolvers";
-import { createUserMutation } from "./user/mutations";
+import {createUserMutation, loginMutation} from "./user/mutations";
 import { ItemQueryType } from "./item/resolvers";
 import { CategoryQueryType } from "./category/resolvers";
 import { createCategoryMutation } from "./category/mutations";
@@ -18,6 +18,7 @@ const rootMutation = new GraphQLObjectType({
     createCategoryMutation,
     createItemMutation,
     removeItemMutation,
+    loginMutation
   }),
 });
 
