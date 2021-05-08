@@ -63,6 +63,7 @@ input createUserMutationInput {
 
 type createUserMutationPayload {
   token: String
+  userId: String
   clientMutationId: String
 }
 
@@ -117,6 +118,7 @@ input loginMutationInput {
 
 type loginMutationPayload {
   token: String
+  userId: ID
   clientMutationId: String
 }
 

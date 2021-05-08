@@ -4,6 +4,7 @@ import {
   GraphQLList,
   GraphQLInt,
   GraphQLNonNull,
+  GraphQLID,
 } from "graphql";
 import { ItemType, nodeField, nodeInterface } from "../item/resolvers";
 import {
