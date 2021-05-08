@@ -100,7 +100,7 @@ export const ItemQueryType = new GraphQLObjectType({
   fields: () => ({
     allItems: {
       type: new GraphQLList(ItemType),
-      resolve: async () => {
+      resolve: async (post, args, context, { rootValue }) => {
         return await itemModelManager.findAll();
       },
     },
