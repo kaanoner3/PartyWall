@@ -43,6 +43,7 @@ export const UserType = new GraphQLObjectType({
         return connectionFromPromisedArray(
           itemModelManager.findAll({
             where: { userId: user.dataValues.id },
+            order: [["createdAt", "DESC"]],
           }),
           args
         );

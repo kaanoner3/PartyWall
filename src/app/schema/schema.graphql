@@ -42,7 +42,7 @@ type createCategoryMutationPayload {
 
 input createItemMutationInput {
   categoryId: Int!
-  userId: Int!
+  userId: String!
   name: String!
   price: Int!
   quantity: Int!
@@ -51,7 +51,7 @@ input createItemMutationInput {
 }
 
 type createItemMutationPayload {
-  item: Item
+  item: [Item]!
   clientMutationId: String
 }
 

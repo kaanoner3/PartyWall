@@ -1,4 +1,4 @@
-import { mutationWithClientMutationId } from "graphql-relay";
+import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay";
 import {
   GraphQLID,
   GraphQLString,
@@ -6,6 +6,7 @@ import {
   GraphQLResolveInfo,
   GraphQLObjectType,
   GraphQLInt,
+  GraphQLList,
 } from "graphql";
 import {
   itemAttributesScalarType,
@@ -20,7 +21,7 @@ export const createItemMutation = mutationWithClientMutationId({
   name: "createItemMutation",
   inputFields: {
     categoryId: { type: new GraphQLNonNull(GraphQLInt) },
-    userId: { type: new GraphQLNonNull(GraphQLInt) },
+    userId: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     price: { type: new GraphQLNonNull(GraphQLInt) },
     quantity: { type: new GraphQLNonNull(GraphQLInt) },
@@ -28,22 +29,30 @@ export const createItemMutation = mutationWithClientMutationId({
   },
   outputFields: {
     item: {
-      type: ItemType,
-      resolve: (payload) => payload,
+      type: new GraphQLNonNull(GraphQLList(ItemType)),
+      resolve: async ({ userId }) => {
+        const items = itemModelManager.findAll({
+          where: { userId },
+        });
+
+        return items;
+      },
     },
   },
   mutateAndGetPayload: async (input) => {
     try {
       const { categoryId, attributes, userId, name, quantity, price } = input;
-      const newItem = await itemModelManager.create({
+      const _id: any = fromGlobalId(userId).id;
+      await itemModelManager.create({
         categoryId,
-        userId,
+        userId: _id,
         name,
         attributes,
         quantity,
         price,
       });
-      return newItem;
+
+      return { userId: _id };
     } catch (e) {
       throw new Error(`createItemMutation ${e}`);
     }
