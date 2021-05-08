@@ -1,18 +1,11 @@
 import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay";
 import {
-  GraphQLID,
   GraphQLString,
   GraphQLNonNull,
-  GraphQLResolveInfo,
-  GraphQLObjectType,
   GraphQLInt,
   GraphQLList,
 } from "graphql";
-import {
-  itemAttributesScalarType,
-  itemAttributesType,
-  ItemType,
-} from "./resolvers";
+import { itemAttributesScalarType, ItemType } from "./resolvers";
 const db = require("../../../app/db");
 
 const itemModelManager = db.sequelize.models.item;
@@ -33,6 +26,7 @@ export const createItemMutation = mutationWithClientMutationId({
       resolve: async ({ userId }) => {
         const items = itemModelManager.findAll({
           where: { userId },
+          order: [["createdAt", "DESC"]],
         });
 
         return items;
@@ -61,7 +55,7 @@ export const createItemMutation = mutationWithClientMutationId({
 export const removeItemMutation = mutationWithClientMutationId({
   name: "removeItemMutation",
   inputFields: {
-    id: { type: new GraphQLNonNull(GraphQLInt) },
+    id: { type: new GraphQLNonNull(GraphQLString) },
   },
   outputFields: {
     deletedId: {
@@ -74,8 +68,9 @@ export const removeItemMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (input) => {
     try {
       const { id } = input;
-      await itemModelManager.destroy({ where: { id } });
-      return { id };
+      const _id: any = fromGlobalId(id).id;
+      await itemModelManager.destroy({ where: { id: _id } });
+      return { id: _id };
     } catch (e) {
       throw new Error(`removeItemMutation ${e}`);
     }

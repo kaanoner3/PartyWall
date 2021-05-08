@@ -2,21 +2,15 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList,
-  GraphQLInt,
   GraphQLNonNull,
-  GraphQLID,
 } from "graphql";
 import { ItemType, nodeField, nodeInterface } from "../item/resolvers";
 import {
   connectionArgs,
   connectionDefinitions,
-  connectionFromArray,
   connectionFromPromisedArray,
   fromGlobalId,
   globalIdField,
-  nodeDefinitions,
-  ResolvedGlobalId,
-  toGlobalId,
 } from "graphql-relay";
 
 const db = require("../../../app/db");

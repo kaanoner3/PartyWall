@@ -5,7 +5,6 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLScalarType,
-  ObjectValueNode,
 } from "graphql";
 import { fromGlobalId, globalIdField, nodeDefinitions } from "graphql-relay";
 const db = require("../../../app/db");
