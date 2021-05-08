@@ -21,12 +21,16 @@ const authMiddleware = (req: any, res: any, next: any) => {
       try {
         return jwt.verify(token, "supersecretkey");
       } catch (err) {
-        throw new Error("Session invalid");
+        console.log('buramı girdi')
+        return res.status(401).json({
+          errorName: "InvalidSession",
+          message: "user unautharized",
+          stack: err.stack || "no stack defined",
+        });
       }
     }
   };
   const token = req.headers.authorization;
-
   validateToken(token);
   next();
 };
