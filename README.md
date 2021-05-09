@@ -14,7 +14,6 @@ Project setup
 Things that I would implement if I have more time;
 
 1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend parts of project using nx and github actions. 
-I haven't got too much experiences about ci/cd. I usually use PaaS (Digital ocean) or FaaS(aws lambda) on my own but I definitely want to improve my docker and devops skills.
 
 2) Jwt authentication looks like it is working good but I am pretty sure, it is not the best practise. 
 I would think about how I can implement authentication logic better. It will also good implementing refreshToken logic with expiring token
