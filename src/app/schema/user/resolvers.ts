@@ -12,6 +12,7 @@ import {
   fromGlobalId,
   globalIdField,
 } from "graphql-relay";
+import { getAllUsers, getUser } from "../../db/utils/user";
 
 const db = require("../../../app/db");
 
@@ -22,7 +23,7 @@ const { connectionType: itemConnection } = connectionDefinitions({
   nodeType: ItemType,
 });
 
-export const UserType = new GraphQLObjectType({
+export const UserType: any = new GraphQLObjectType({
   name: "User",
   interfaces: () => [nodeInterface],
   fields: () => ({
@@ -53,15 +54,14 @@ export const UserQueryType = new GraphQLObjectType({
     allPeople: {
       type: new GraphQLList(UserType),
       resolve: async (payload) => {
-        return await userModelManager.findAll();
+        return getAllUsers();
       },
     },
     person: {
       type: UserType,
       args: { userId: { type: new GraphQLNonNull(GraphQLString) } },
       resolve: async (rootValue, args: { userId?: string }) => {
-        const _id: any = args.userId && fromGlobalId(args.userId);
-        return await userModelManager.findByPk(_id.id);
+        return getUser(args.userId);
       },
     },
     node: nodeField,

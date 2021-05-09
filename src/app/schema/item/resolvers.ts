@@ -7,23 +7,36 @@ import {
   GraphQLScalarType,
 } from "graphql";
 import { fromGlobalId, globalIdField, nodeDefinitions } from "graphql-relay";
+import { getAllItems, getItem } from "../../db/utils/item";
+import { getUser } from "../../db/utils/user";
+import { UserQueryType, UserType } from "../user/resolvers";
 const db = require("../../../app/db");
+const Item = require("../../db/item");
+const User = require("../../db/item");
 
 const itemModelManager = db.sequelize.models.item;
 const categoryModelManager = db.sequelize.models.category;
 const userModelManager = db.sequelize.models.user;
 
+// @ts-ignore
 const { nodeInterface, nodeField } = nodeDefinitions(
   (globalId) => {
     const { type, id } = fromGlobalId(globalId);
-    // Log to NodeJS console the mapping from globalId/Node ID
-    // to actual object type and id
-    console.log("NodeDefinitions (globalId), id:", id);
-    console.log("NodeDefinitions (globalId), type:", type);
-
-    return id;
+    if (type === "Item") {
+      return getItem(id);
+    }
+    if (type === "User") {
+      return getUser(id);
+    }
+    return null;
   },
+  // @ts-ignore
   (obj) => {
+    if (obj instanceof Item) {
+      return ItemType;
+    } else if (obj instanceof User) {
+      return UserType;
+    }
     return null;
   }
 );
@@ -61,7 +74,7 @@ export const itemAttributesType = new GraphQLObjectType({
   }),
 });
 
-export const ItemType = new GraphQLObjectType({
+export const ItemType: any = new GraphQLObjectType({
   name: "Item",
   fields: () => ({
     id: globalIdField("Item"),
@@ -99,18 +112,15 @@ export const ItemQueryType = new GraphQLObjectType({
   fields: () => ({
     allItems: {
       type: new GraphQLList(ItemType),
-      resolve: async (post, args, context, { rootValue }) => {
-        return await itemModelManager.findAll({
-          order: [["createdAt", "DESC"]],
-        });
+      resolve: async () => {
+        return getAllItems();
       },
     },
     item: {
       type: ItemType,
       args: { itemId: { type: new GraphQLNonNull(GraphQLString) } },
       resolve: async (rootValue, args: { itemId?: string }) => {
-        const _id: any = args.itemId && fromGlobalId(args.itemId);
-        return await itemModelManager.findByPk(_id.id);
+        return getItem(args.itemId);
       },
     },
     node: nodeField,

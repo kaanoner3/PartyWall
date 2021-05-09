@@ -1,5 +1,3 @@
-const Item = require("./item");
-
 module.exports = (sequelize: any, Sequelize: any) => {
   const User = sequelize.define("user", {
     id: {
