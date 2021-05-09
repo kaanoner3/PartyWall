@@ -3,7 +3,7 @@
 
 Project setup
 
-1) Run docker-compose up to create a local postgresql
+1) Run docker-compose up to create a local postgresql in the root directory
 2) Run "npm run dev"
 3) Copy and paste the url below to create Food category
 "http://localhost:8080/graphql?query=mutation%7B%0A%20%20createCategoryMutation(input%3A%7Bname%3A%22Food%22%7D)%7B%0A%20%20%20%20category%7B%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D"
