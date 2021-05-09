@@ -23,3 +23,5 @@ I would think about how I can implement authentication logic better. It will als
 But I am using refetch mechanism and it is working fine. I would do research and more test to know if my implementation is the right way.
 
 4) I would add unit tests for mutations and queries
+
+5) I would add varaibles inside dbConfig.ts and secret key for jwt library to .env file
