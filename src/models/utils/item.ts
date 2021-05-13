@@ -1,6 +1,5 @@
 import { fromGlobalId, ResolvedGlobalId } from "graphql-relay";
 import { CreateItemMutationInputs } from "../../../index";
-import { GraphQLError } from "graphql";
 
 const db = require("../index");
 const itemModelManager = db.sequelize.models.item;
