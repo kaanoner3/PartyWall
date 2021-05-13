@@ -13,16 +13,6 @@ Project setup
 
 Things that I would implement if I have more time;
 
-1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend parts of project using nx and github actions. 
+1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend projects using nx and github actions. 
 
-2) Jwt authentication looks like it is working good but I am pretty sure, it is not the best practise. 
-I would think about how I can implement authentication logic better. It will also good implementing refreshToken logic with expiring token
-
-3) Because of poor documentation of graphql-relay, I am not sure the node interface implementation is correct. 
-But I am using refetch mechanism and it is working fine. I would do research and more test to know if my implementation is the right way.
-
-4) I would add unit tests for mutations and queries
-
-5) I would add varaibles inside dbConfig.ts and secret key for jwt library to .env file
-
-6) I would definitely improve typescript for seqeulize and graphql objects
+2) I would add unit tests for mutations and queries
