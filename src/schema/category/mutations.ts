@@ -1,11 +1,5 @@
 import { mutationWithClientMutationId } from "graphql-relay";
-import {
-  GraphQLID,
-  GraphQLString,
-  GraphQLNonNull,
-  GraphQLResolveInfo,
-  GraphQLObjectType,
-} from "graphql";
+import { GraphQLString, GraphQLNonNull, GraphQLError } from "graphql";
 import { CategoryType } from "./resolvers";
 const db = require("../../models");
 
@@ -28,7 +22,7 @@ export const createCategoryMutation = mutationWithClientMutationId({
     try {
       return await categoryModelManager.create({ name });
     } catch (e) {
-      throw new Error(`createCategoryMutation ${e}`);
+      throw new GraphQLError(`createCategoryMutation ${e}`);
     }
   },
 });

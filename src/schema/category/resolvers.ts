@@ -5,9 +5,7 @@ import {
   GraphQLInt,
   GraphQLNonNull,
 } from "graphql";
-const db = require("../../models");
-
-const categoryModelManager = db.sequelize.models.category;
+import { getAllCategories, getCategory } from "../../models/utils/category";
 
 export const CategoryType = new GraphQLObjectType({
   name: "Category",
@@ -24,14 +22,14 @@ export const CategoryQueryType = new GraphQLObjectType({
     allCategories: {
       type: new GraphQLList(CategoryType),
       resolve: async (payload) => {
-        return await categoryModelManager.findAll();
+        return getAllCategories();
       },
     },
     category: {
       type: CategoryType,
       args: { categoryId: { type: new GraphQLNonNull(GraphQLString) } },
       resolve: async (rootValue, args: { categoryId?: string }) => {
-        return await categoryModelManager.findByPk(args.categoryId);
+        return args.categoryId && getCategory(args.categoryId);
       },
     },
   }),

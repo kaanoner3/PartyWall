@@ -1,16 +1,18 @@
-import { fromGlobalId, mutationWithClientMutationId } from "graphql-relay";
+import { mutationWithClientMutationId } from "graphql-relay";
 import {
   GraphQLString,
   GraphQLNonNull,
   GraphQLInt,
   GraphQLList,
-  GraphQLResolveInfo,
   GraphQLError,
 } from "graphql";
 import { itemAttributesScalarType, ItemType } from "./resolvers";
-const db = require("../../models");
-
-const itemModelManager = db.sequelize.models.item;
+import {
+  createItem,
+  findAllUserItems,
+  removeItem,
+} from "../../models/utils/item";
+import { CreateItemMutationInputs } from "../../../index";
 
 export const createItemMutation = mutationWithClientMutationId({
   name: "createItemMutation",
@@ -25,36 +27,21 @@ export const createItemMutation = mutationWithClientMutationId({
   outputFields: {
     item: {
       type: new GraphQLNonNull(GraphQLList(ItemType)),
-      resolve: async ({ userId }) => {
-        const items = itemModelManager.findAll({
-          where: { userId },
-          order: [["createdAt", "DESC"]],
-        });
-
-        return items;
+      resolve: async ({ userId }: { userId: number }) => {
+        return findAllUserItems(userId);
       },
     },
   },
-  mutateAndGetPayload: async (input: any, ctx: any) => {
+  mutateAndGetPayload: async (input: CreateItemMutationInputs, ctx: any) => {
     try {
       if (ctx.isAuthenticated) {
-        const { categoryId, attributes, userId, name, quantity, price } = input;
-        const _id: any = fromGlobalId(userId).id;
-        await itemModelManager.create({
-          categoryId,
-          userId: _id,
-          name,
-          attributes,
-          quantity,
-          price,
-        });
-
-        return { userId: _id };
+        const userId = await createItem(input);
+        return { userId };
       } else {
         throw new GraphQLError("User is not authenticated");
       }
     } catch (e) {
-      throw new Error(`createItemMutation ${e}`);
+      throw new GraphQLError(`createItemMutation ${e}`);
     }
   },
 });
@@ -71,14 +58,17 @@ export const removeItemMutation = mutationWithClientMutationId({
       },
     },
   },
-  mutateAndGetPayload: async (input) => {
+  mutateAndGetPayload: async (input, ctx: any) => {
     try {
-      const { id } = input;
-      const _id: any = fromGlobalId(id).id;
-      await itemModelManager.destroy({ where: { id: _id } });
-      return { id: _id };
+      if (ctx.isAuthenticated) {
+        const { id } = input;
+        const removedId = removeItem(id);
+        return { id: removedId };
+      } else {
+        throw new GraphQLError("User is not authenticated");
+      }
     } catch (e) {
-      throw new Error(`removeItemMutation ${e}`);
+      throw new GraphQLError(`removeItemMutation ${e}`);
     }
   },
 });

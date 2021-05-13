@@ -9,15 +9,10 @@ import {
   connectionArgs,
   connectionDefinitions,
   connectionFromPromisedArray,
-  fromGlobalId,
   globalIdField,
 } from "graphql-relay";
 import { getAllUsers, getUser } from "../../models/utils/user";
-
-const db = require("../../models");
-
-const userModelManager = db.sequelize.models.user;
-const itemModelManager = db.sequelize.models.item;
+import { findAllUserItems } from "../../models/utils/item";
 
 const { connectionType: itemConnection } = connectionDefinitions({
   nodeType: ItemType,
@@ -36,10 +31,7 @@ export const UserType = new GraphQLObjectType({
       args: connectionArgs,
       resolve: async (user, args) => {
         return connectionFromPromisedArray(
-          itemModelManager.findAll({
-            where: { userId: user.dataValues.id },
-            order: [["createdAt", "DESC"]],
-          }),
+          findAllUserItems(user.dataValues.id),
           args
         );
       },

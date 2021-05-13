@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Kaan Oner",
   "main": "src/index.ts",
+  "types": "./index.d.ts",
   "scripts": {
     "build": "tsc",
     "start": "node ./src/index.ts",

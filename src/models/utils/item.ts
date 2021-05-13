@@ -1,7 +1,13 @@
-import { fromGlobalId } from "graphql-relay";
+import { fromGlobalId, ResolvedGlobalId } from "graphql-relay";
+import { CreateItemMutationInputs } from "../../../index";
+import {GraphQLError} from "graphql";
 
 const db = require("../index");
 const itemModelManager = db.sequelize.models.item;
+
+const getIdFromGlobalId = (globalId: string): ResolvedGlobalId => {
+  return fromGlobalId(globalId);
+};
 
 export const getAllItems = async () => {
   return await itemModelManager.findAll({
@@ -9,7 +15,32 @@ export const getAllItems = async () => {
   });
 };
 
-export const getItem = async (globalId: string | undefined) => {
-  const _id: any = globalId && fromGlobalId(globalId);
-  return await itemModelManager.findByPk(_id.id);
+export const getItem = async (globalId: string) => {
+  const id = getIdFromGlobalId(globalId).id;
+  return await itemModelManager.findByPk(id);
+};
+
+export const createItem = async (
+  input: CreateItemMutationInputs
+): Promise<number> => {
+  const { userId } = input;
+  const _id = getIdFromGlobalId(userId).id;
+  await itemModelManager.create({
+    ...input,
+    userId: _id,
+  });
+  return parseInt(_id);
+};
+
+export const findAllUserItems = async (userId: number) => {
+  return await itemModelManager.findAll({
+    where: { userId },
+    order: [["createdAt", "DESC"]],
+  });
+};
+
+export const removeItem = async (itemId: string) => {
+    const _id: any = getIdFromGlobalId(itemId).id;
+    await itemModelManager.destroy({ where: { id: _id } });
+    return _id
 };

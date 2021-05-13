@@ -5,20 +5,19 @@ import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLScalarType,
+  GraphQLError,
 } from "graphql";
 import { fromGlobalId, globalIdField, nodeDefinitions } from "graphql-relay";
-import { getAllItems, getItem } from "../../models/utils/item";
+import { createItem, getAllItems, getItem } from "../../models/utils/item";
+import { getUsername } from "../../models/utils/user";
+import {getCategoryName} from "../../models/utils/category";
 const db = require("../../models");
 const graphqlSequelize = require("graphql-sequelize");
-
-const itemModelManager = db.sequelize.models.item;
-const categoryModelManager = db.sequelize.models.category;
 const userModelManager = db.sequelize.models.user;
 
-const {
-  nodeInterface,
-  nodeField,
-} = graphqlSequelize.createNodeInterface(db.sequelize);
+const { nodeInterface, nodeField } = graphqlSequelize.createNodeInterface(
+  db.sequelize
+);
 
 export { nodeInterface, nodeField };
 
@@ -68,16 +67,14 @@ export const ItemType = new GraphQLObjectType({
       type: GraphQLString,
       resolve: async (rootValue) => {
         const { categoryId } = rootValue.dataValues;
-        const category = await categoryModelManager.findByPk(categoryId);
-        return category.dataValues.name;
+        return await getCategoryName(categoryId)
       },
     },
     userName: {
       type: GraphQLString,
       resolve: async (rootValue) => {
         const { userId } = rootValue.dataValues;
-        const user = await userModelManager.findByPk(userId);
-        return user.dataValues.username;
+        return await getUsername(userId);
       },
     },
   }),
@@ -91,15 +88,23 @@ export const ItemQueryType = new GraphQLObjectType({
   fields: () => ({
     allItems: {
       type: new GraphQLList(ItemType),
-      resolve: async () => {
-        return getAllItems();
+      resolve: async (query, args, ctx) => {
+        if (ctx.isAuthenticated) {
+          return getAllItems();
+        } else {
+          throw new GraphQLError("User is not authenticated");
+        }
       },
     },
     item: {
       type: ItemType,
       args: { itemId: { type: new GraphQLNonNull(GraphQLString) } },
-      resolve: async (rootValue, args: { itemId?: string }) => {
-        return getItem(args.itemId);
+      resolve: async (rootValue, args: { itemId?: string }, ctx) => {
+        if (ctx.isAuthenticated) {
+          return args.itemId && getItem(args.itemId);
+        } else {
+          throw new GraphQLError("User is not authenticated");
+        }
       },
     },
     node: nodeField,

@@ -1,16 +1,7 @@
 import { Sequelize, DataTypes, Optional, Model } from "sequelize";
+import {ItemAttributes} from "../../index";
 
-interface ItemAttributes {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  attributes: {
-    volume?: number;
-    description?: string;
-    weight?: number;
-  };
-}
+
 interface ItemCreationAttributes extends Optional<ItemAttributes, "id"> {}
 interface ItemInstance
   extends Model<ItemAttributes, ItemCreationAttributes>,
