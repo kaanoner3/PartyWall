@@ -8,38 +8,17 @@ import {
 } from "graphql";
 import { fromGlobalId, globalIdField, nodeDefinitions } from "graphql-relay";
 import { getAllItems, getItem } from "../../models/utils/item";
-import { getUser } from "../../models/utils/user";
-import { UserQueryType, UserType } from "../user/resolvers";
 const db = require("../../models");
-const Item = require("../../models/item");
-const User = require("../../models/item");
+const graphqlSequelize = require("graphql-sequelize");
 
 const itemModelManager = db.sequelize.models.item;
 const categoryModelManager = db.sequelize.models.category;
 const userModelManager = db.sequelize.models.user;
 
-// @ts-ignore
-const { nodeInterface, nodeField } = nodeDefinitions(
-  (globalId) => {
-    const { type, id } = fromGlobalId(globalId);
-    if (type === "Item") {
-      return getItem(id);
-    }
-    if (type === "User") {
-      return getUser(id);
-    }
-    return null;
-  },
-  // @ts-ignore
-  (obj) => {
-    if (obj instanceof Item) {
-      return ItemType;
-    } else if (obj instanceof User) {
-      return UserType;
-    }
-    return null;
-  }
-);
+const {
+  nodeInterface,
+  nodeField,
+} = graphqlSequelize.createNodeInterface(db.sequelize);
 
 export { nodeInterface, nodeField };
 
@@ -74,7 +53,7 @@ export const itemAttributesType = new GraphQLObjectType({
   }),
 });
 
-export const ItemType: any = new GraphQLObjectType({
+export const ItemType = new GraphQLObjectType({
   name: "Item",
   fields: () => ({
     id: globalIdField("Item"),

@@ -1,8 +1,9 @@
 import { mutationWithClientMutationId, toGlobalId } from "graphql-relay";
-import { GraphQLString, GraphQLNonNull, GraphQLID } from "graphql";
+import {GraphQLString, GraphQLNonNull, GraphQLID, GraphQLError} from "graphql";
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { config } from "../../config";
 
 const db = require("../../models");
 
@@ -39,14 +40,14 @@ export const createUserMutation = mutationWithClientMutationId({
           username: _username,
           password: hashed,
         });
-        const token = jwt.sign({ id: _user.id }, "supersecretkey");
+        const token = jwt.sign({ id: _user.id }, config.jwtSecretKey);
         const globalId = toGlobalId("User", _user.id);
         return { token, id: globalId };
       } else {
-        throw new Error(`User is already exist `);
+        throw new GraphQLError(`User is already exist `);
       }
     } catch (e) {
-      throw new Error(`${e}`);
+      throw new GraphQLError(`${e}`);
     }
   },
 });
@@ -80,15 +81,15 @@ export const loginMutation = mutationWithClientMutationId({
     });
     const userId = _user.dataValues.id;
     if (!_user) {
-      throw new Error("Password or username is invalid");
+      throw new GraphQLError("Password or username is invalid");
     }
     const valid = await bcrypt.compare(password, _user.dataValues.password);
 
     if (!valid) {
-      throw new Error("Password or username is invalid");
+      throw new GraphQLError("Password or username is invalid");
     }
 
-    const token = jwt.sign({ id: userId }, "supersecretkey");
+    const token = jwt.sign({ id: userId }, config.jwtSecretKey);
     const globalId = toGlobalId("User", userId);
 
     return { token, id: globalId };

@@ -5,7 +5,6 @@ interface ItemAttributes {
   name: string;
   price: number;
   quantity: number;
-
   attributes: {
     volume?: number;
     description?: string;
@@ -31,13 +30,13 @@ module.exports = (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
       },
       name: {
-        type: DataTypes.STRING, // belongs both type
+        type: DataTypes.STRING,
       },
       price: {
-        type: DataTypes.INTEGER, // belongs both type
+        type: DataTypes.INTEGER,
       },
       quantity: {
-        type: DataTypes.INTEGER, // belongs both type
+        type: DataTypes.INTEGER,
       },
       attributes: {
         type: DataTypes.JSON,

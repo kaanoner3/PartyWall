@@ -23,7 +23,7 @@ const { connectionType: itemConnection } = connectionDefinitions({
   nodeType: ItemType,
 });
 
-export const UserType: any = new GraphQLObjectType({
+export const UserType = new GraphQLObjectType({
   name: "User",
   interfaces: () => [nodeInterface],
   fields: () => ({

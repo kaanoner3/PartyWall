@@ -4,6 +4,8 @@ import {
   GraphQLNonNull,
   GraphQLInt,
   GraphQLList,
+  GraphQLResolveInfo,
+  GraphQLError,
 } from "graphql";
 import { itemAttributesScalarType, ItemType } from "./resolvers";
 const db = require("../../models");
@@ -33,20 +35,24 @@ export const createItemMutation = mutationWithClientMutationId({
       },
     },
   },
-  mutateAndGetPayload: async (input) => {
+  mutateAndGetPayload: async (input: any, ctx: any) => {
     try {
-      const { categoryId, attributes, userId, name, quantity, price } = input;
-      const _id: any = fromGlobalId(userId).id;
-      await itemModelManager.create({
-        categoryId,
-        userId: _id,
-        name,
-        attributes,
-        quantity,
-        price,
-      });
+      if (ctx.isAuthenticated) {
+        const { categoryId, attributes, userId, name, quantity, price } = input;
+        const _id: any = fromGlobalId(userId).id;
+        await itemModelManager.create({
+          categoryId,
+          userId: _id,
+          name,
+          attributes,
+          quantity,
+          price,
+        });
 
-      return { userId: _id };
+        return { userId: _id };
+      } else {
+        throw new GraphQLError("User is not authenticated");
+      }
     } catch (e) {
       throw new Error(`createItemMutation ${e}`);
     }

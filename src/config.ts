@@ -7,5 +7,6 @@ export const config = {
   database: process.env.POSTGRES_DB || "database_test",
   host: process.env.POSTGRES_HOST || "localhost",
   dialect: "postgres",
+  jwtSecretKey: process.env.JWT_SECRET || "supersecretkey",
   logging: false,
 };
