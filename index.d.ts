@@ -13,6 +13,6 @@ export interface ItemAttributeType {
 }
 
 export interface CreateItemMutationInputs extends ItemAttributes {
-    userId: string;
+    userId: number;
     categoryId: number;
 }

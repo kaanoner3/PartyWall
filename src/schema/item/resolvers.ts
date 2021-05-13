@@ -7,13 +7,12 @@ import {
   GraphQLScalarType,
   GraphQLError,
 } from "graphql";
-import { fromGlobalId, globalIdField, nodeDefinitions } from "graphql-relay";
-import { createItem, getAllItems, getItem } from "../../models/utils/item";
+import { globalIdField } from "graphql-relay";
+import {  getAllItems, getItem } from "../../models/utils/item";
 import { getUsername } from "../../models/utils/user";
 import {getCategoryName} from "../../models/utils/category";
 const db = require("../../models");
 const graphqlSequelize = require("graphql-sequelize");
-const userModelManager = db.sequelize.models.user;
 
 const { nodeInterface, nodeField } = graphqlSequelize.createNodeInterface(
   db.sequelize

@@ -18,7 +18,6 @@ export const createItemMutation = mutationWithClientMutationId({
   name: "createItemMutation",
   inputFields: {
     categoryId: { type: new GraphQLNonNull(GraphQLInt) },
-    userId: { type: new GraphQLNonNull(GraphQLString) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     price: { type: new GraphQLNonNull(GraphQLInt) },
     quantity: { type: new GraphQLNonNull(GraphQLInt) },
@@ -35,8 +34,8 @@ export const createItemMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async (input: CreateItemMutationInputs, ctx: any) => {
     try {
       if (ctx.isAuthenticated) {
-        const userId = await createItem(input);
-        return { userId };
+        await createItem({ ...input, userId: ctx.userId });
+        return { userId: ctx.userId };
       } else {
         throw new GraphQLError("User is not authenticated");
       }
