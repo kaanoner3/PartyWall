@@ -7,12 +7,12 @@ import {
   GraphQLScalarType,
 } from "graphql";
 import { fromGlobalId, globalIdField, nodeDefinitions } from "graphql-relay";
-import { getAllItems, getItem } from "../../db/utils/item";
-import { getUser } from "../../db/utils/user";
+import { getAllItems, getItem } from "../../models/utils/item";
+import { getUser } from "../../models/utils/user";
 import { UserQueryType, UserType } from "../user/resolvers";
-const db = require("../../../app/db");
-const Item = require("../../db/item");
-const User = require("../../db/item");
+const db = require("../../models");
+const Item = require("../../models/item");
+const User = require("../../models/item");
 
 const itemModelManager = db.sequelize.models.item;
 const categoryModelManager = db.sequelize.models.category;

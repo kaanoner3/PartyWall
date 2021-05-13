@@ -3,10 +3,10 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import config from "../config.json";
-import { rootQueryType, schema } from "./app/schema";
+import { rootQueryType, schema } from "./schema";
 import { graphqlHTTP } from "express-graphql";
 import expressPlayground  from "graphql-playground-middleware-express";
-import {authMiddleware} from "./app/middleware";
+import {authMiddleware} from "./middleware";
 
 const app: Express = express();
 

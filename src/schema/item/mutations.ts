@@ -6,7 +6,7 @@ import {
   GraphQLList,
 } from "graphql";
 import { itemAttributesScalarType, ItemType } from "./resolvers";
-const db = require("../../../app/db");
+const db = require("../../models");
 
 const itemModelManager = db.sequelize.models.item;
 

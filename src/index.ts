@@ -1,7 +1,7 @@
 import app from "./server";
 import config from "../config.json";
 
-const db = require("./app/db");
+const db = require("./models");
 
 const port = Number(process.env.PORT || config.PORT || 8080);
 db.sequelize

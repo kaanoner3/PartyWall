@@ -4,7 +4,7 @@ import { GraphQLString, GraphQLNonNull, GraphQLID } from "graphql";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const db = require("../../../app/db");
+const db = require("../../models");
 
 export const createUserMutation = mutationWithClientMutationId({
   name: "createUserMutation",

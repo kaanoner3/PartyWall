@@ -12,9 +12,9 @@ import {
   fromGlobalId,
   globalIdField,
 } from "graphql-relay";
-import { getAllUsers, getUser } from "../../db/utils/user";
+import { getAllUsers, getUser } from "../../models/utils/user";
 
-const db = require("../../../app/db");
+const db = require("../../models");
 
 const userModelManager = db.sequelize.models.user;
 const itemModelManager = db.sequelize.models.item;

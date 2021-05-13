@@ -7,7 +7,7 @@ import {
   GraphQLObjectType,
 } from "graphql";
 import { CategoryType } from "./resolvers";
-const db = require("../../../app/db");
+const db = require("../../models");
 
 const categoryModelManager = db.sequelize.models.category;
 

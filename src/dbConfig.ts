@@ -1,4 +1,4 @@
-module.exports = {
+export const dbConfig = {
   HOST: "localhost",
   USER: "test123",
   PASSWORD: "test123",

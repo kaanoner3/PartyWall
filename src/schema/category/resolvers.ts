@@ -5,7 +5,7 @@ import {
   GraphQLInt,
   GraphQLNonNull,
 } from "graphql";
-const db = require("../../../app/db");
+const db = require("../../models");
 
 const categoryModelManager = db.sequelize.models.category;
 

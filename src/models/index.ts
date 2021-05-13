@@ -1,20 +1,11 @@
+import { Sequelize } from "sequelize";
 import * as fs from "fs";
 import path from "path";
+import { config } from "../config";
 
-const dbConfig = require("../../dbConfig");
-
-import { Sequelize } from "sequelize-typescript";
-
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: dbConfig.HOST,
-  dialect: dbConfig.dialect,
-  pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle,
-  },
-});
+const sequelize = new Sequelize(
+  `postgres://${config.username}:${config.password}@${config.host}:${config.port}/${config.database}`
+);
 
 let basename = path.basename(module.filename);
 let db: any = {};
@@ -26,7 +17,9 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach(function (file) {
-    let model = require(path.join(__dirname, file))(sequelize, Sequelize);
+    console.log("file", file);
+
+    let model = require(path.join(__dirname, file))(sequelize);
     db[model.name] = model;
   });
 

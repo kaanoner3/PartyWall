@@ -1,6 +1,6 @@
 import { fromGlobalId } from "graphql-relay";
 
-const db = require("../../../app/db");
+const db = require("../index");
 const userModelManager = db.sequelize.models.user;
 
 export const getAllUsers = async () => {
