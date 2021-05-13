@@ -4,36 +4,17 @@ import helmet from "helmet";
 import cors from "cors";
 import config from "../config.json";
 import { rootQueryType, schema } from "./app/schema";
-import jwt from "jsonwebtoken";
+import { graphqlHTTP } from "express-graphql";
+import expressPlayground  from "graphql-playground-middleware-express";
+import {authMiddleware} from "./app/middleware";
 
-var { graphqlHTTP } = require("express-graphql");
-const expressPlayground = require("graphql-playground-middleware-express")
-  .default;
 const app: Express = express();
 
 app.set("json spaces", 4);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const authMiddleware = (req: any, res: any, next: any) => {
-  const validateToken: any = (token: any) => {
-    if (token) {
-      try {
-        return jwt.verify(token, "supersecretkey");
-      } catch (err) {
-        console.log('buramı girdi')
-        return res.status(401).json({
-          errorName: "InvalidSession",
-          message: "user unautharized",
-          stack: err.stack || "no stack defined",
-        });
-      }
-    }
-  };
-  const token = req.headers.authorization;
-  validateToken(token);
-  next();
-};
+
 app.use(authMiddleware);
 app.use(
   "/graphql",
@@ -59,7 +40,6 @@ if (process.env.NODE_ENV === "production" || config.NODE_ENV === "production") {
   app.use(helmet());
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(
   (
     err: Error,
