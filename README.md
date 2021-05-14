@@ -18,6 +18,16 @@ Project setup
 "http://localhost:8080/graphql?query=mutation%7B%0A%20%20createCategoryMutation(input%3A%7Bname%3A%22Drink%22%7D)%7B%0A%20%20%20%20category%7B%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D"
 (it is important to create Food category first because  I've used static values in the frontend)
 
+Explanation for globalID:<br/>
+I’ve used relay client on the frontend side so I had to make the server relay compatible.
+The Node interface gives objects a globally unique ID not only between instances of a single domain entity, but also across domain entities. That provides API to handle cache and re-fetch mechanism. The globalID doesn’t represent the database id, it represents the id of an object in the graph
+
+https://dev.to/zth/the-magic-of-the-node-interface-4le1<br/>
+https://graphql.org/learn/global-object-identification
+
+Explanation for item attribute validation:<br/>
+I am showing two different form for each category, so it doesn't need to be validate for this project
+
 Things that I would implement if I have more time;
 
 1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend projects by using nx and github actions. 
