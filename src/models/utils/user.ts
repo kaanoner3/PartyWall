@@ -56,7 +56,6 @@ export const loginUser = async (username: string, password: string) => {
     where: { username: _username },
   });
 
-  const userId = _user.dataValues.id;
   if (!_user) {
     throw new GraphQLError("Password or username is invalid");
   }
@@ -66,6 +65,7 @@ export const loginUser = async (username: string, password: string) => {
     throw new GraphQLError("Password or username is invalid");
   }
 
+  const userId = _user.dataValues.id;
   const token = jwt.sign({ id: userId }, config.jwtSecretKey);
   const globalId = toGlobalId("User", userId);
 
