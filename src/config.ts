@@ -8,5 +8,4 @@ export const config = {
   host: process.env.POSTGRES_HOST || "localhost",
   dialect: "postgres",
   jwtSecretKey: process.env.JWT_SECRET || "supersecretkey",
-  logging: false,
 };
