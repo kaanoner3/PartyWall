@@ -20,6 +20,6 @@ Project setup
 
 Things that I would implement if I have more time;
 
-1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend projects using nx and github actions. 
+1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend projects by using nx and github actions. 
 
 2) I would add unit tests for mutations and queries
