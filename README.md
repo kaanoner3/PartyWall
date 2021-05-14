@@ -2,27 +2,34 @@
 
 
 Project setup
+1) create an .env file, here is an example of env file:
+   >JWT_SECRET="supersecretkey"<br/>
+   POSTGRES_USER="test123"<br/>
+   POSTGRES_PASSWORD="test123"<br/>
+   POSTGRES_PORT=5432<br/>
+   POSTGRES_DB="party-wall"<br/>
+   POSTGRES_HOST="localhost"
 
-1) Run docker-compose up to create a local postgresql in the root directory
-2) Run "npm install & npm run dev"
-3) Copy and paste the url below to create Food category
+2) Run docker-compose up to create a local postgresql in the root directory
+3) Run "npm install & npm run dev"
+4) Copy and paste the url below to create Food category
 "http://localhost:8080/graphql?query=mutation%7B%0A%20%20createCategoryMutation(input%3A%7Bname%3A%22Food%22%7D)%7B%0A%20%20%20%20category%7B%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D"
-4) Copy and paste the url below to create Drink category 
+5) Copy and paste the url below to create Drink category 
 "http://localhost:8080/graphql?query=mutation%7B%0A%20%20createCategoryMutation(input%3A%7Bname%3A%22Drink%22%7D)%7B%0A%20%20%20%20category%7B%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D"
 (it is important to create Food category first because  I've used static values in the frontend)
 
+Explanation for globalID:<br/>
+I’ve used relay client on the frontend side so I had to make the server relay compatible.
+The Node interface gives objects a globally unique ID not only between instances of a single domain entity, but also across domain entities. That provides API to handle cache and re-fetch mechanism. The globalID doesn’t represent the database id, it represents the id of an object in the graph
+
+https://dev.to/zth/the-magic-of-the-node-interface-4le1<br/>
+https://graphql.org/learn/global-object-identification
+
+Explanation for item attribute validation:<br/>
+I am showing two different form for each category, so it doesn't need to be validate for this project
+
 Things that I would implement if I have more time;
 
-1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend parts of project using nx and github actions. 
+1) There is no ci/cd pipeline. I would create monorepo which contains mobile and backend projects by using nx and github actions. 
 
-2) Jwt authentication looks like it is working good but I am pretty sure, it is not the best practise. 
-I would think about how I can implement authentication logic better. It will also good implementing refreshToken logic with expiring token
-
-3) Because of poor documentation of graphql-relay, I am not sure the node interface implementation is correct. 
-But I am using refetch mechanism and it is working fine. I would do research and more test to know if my implementation is the right way.
-
-4) I would add unit tests for mutations and queries
-
-5) I would add varaibles inside dbConfig.ts and secret key for jwt library to .env file
-
-6) I would definitely improve typescript for seqeulize and graphql objects
+2) I would add unit tests for mutations and queries
