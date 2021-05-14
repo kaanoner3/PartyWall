@@ -3,12 +3,12 @@
 
 Project setup
 1) create an .env file, here is an example env file:
-   >JWT_SECRET="supersecretkey"
-    POSTGRES_USER="test123"
-    POSTGRES_PASSWORD="test123"
-    POSTGRES_PORT=5432
-    POSTGRES_DB="party-wall"
-    POSTGRES_HOST="localhost"
+   >JWT_SECRET="supersecretkey"<br/>
+   POSTGRES_USER="test123"<br/>
+   POSTGRES_PASSWORD="test123"<br/>
+   POSTGRES_PORT=5432<br/>
+   POSTGRES_DB="party-wall"<br/>
+   POSTGRES_HOST="localhost"
 
 2) Run docker-compose up to create a local postgresql in the root directory
 3) Run "npm install & npm run dev"
