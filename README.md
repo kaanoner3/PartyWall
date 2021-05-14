@@ -2,7 +2,7 @@
 
 
 Project setup
-1) create an .env file, here is an example env file:
+1) create an .env file, here is an example of env file:
    >JWT_SECRET="supersecretkey"<br/>
    POSTGRES_USER="test123"<br/>
    POSTGRES_PASSWORD="test123"<br/>
